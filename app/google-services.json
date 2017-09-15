@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "535353841960",
+    "firebase_url": "https://ancora-timer.firebaseio.com",
+    "project_id": "ancora-timer",
+    "storage_bucket": "ancora-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535353841960:android:07a411a0b7d4e852",
+        "android_client_info": {
+          "package_name": "com.annoyedandroid.ancora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535353841960-7v3tcvadf6bgoahicqujfgq5bhs5q4kj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.annoyedandroid.ancora",
+            "certificate_hash": "493fed8d314fbe1d9185c69812085306e5aa7956"
+          }
+        },
+        {
+          "client_id": "535353841960-bieh6dlc372j62tgllamrudfevo6ripn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXR0zM7NkX-IwnlMtZSfGfH4pz14NM7xs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535353841960-bieh6dlc372j62tgllamrudfevo6ripn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
