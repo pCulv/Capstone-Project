@@ -6,16 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.annoyedandroid.ancora.ui.fragments.MainActivityFragment"
     tools:showIn="@layout/activity_main">
-    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_alignParentTop="true">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
@@ -23,8 +25,10 @@
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/new_timer_fab"
@@ -39,5 +43,4 @@
         android:src="@drawable/ic_alarm_add_white_24dp"
         app:elevation="14dp"
         app:fabSize="normal" />
-</android.support.v4.widget.NestedScrollView>
 </RelativeLayout>
