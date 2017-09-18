@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.annoyedandroid.ancora.ui.fragments.NewTimerFragment">
 
-
     <Button
         android:id="@+id/startBtn"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -17,12 +16,44 @@
         android:textColor="@color/colorPrimary"
         android:textSize="18sp" />
 
-    <TimePicker
-        android:id="@+id/timePicker"
+
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
-        android:layout_above="@+id/startBtn"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/enter_timer_name" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="107dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="72dp"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/newHourPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <NumberPicker
+            android:id="@+id/newMinPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <NumberPicker
+            android:id="@+id/newSecPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
 </RelativeLayout>
