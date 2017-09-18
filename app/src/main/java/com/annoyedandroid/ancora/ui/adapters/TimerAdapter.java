@@ -31,9 +31,8 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.TimerViewHol
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutIdForTimers, viewGroup, false);
-        TimerViewHolder  timerViewHolder = new TimerViewHolder(view);
 
-        return timerViewHolder;
+        return new TimerViewHolder(view);
     }
 
     @Override

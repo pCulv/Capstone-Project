@@ -1,7 +1,6 @@
 package com.annoyedandroid.ancora.ui.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,14 +24,8 @@ public class MainActivityFragment extends Fragment {
     private TimerAdapter mAdapter;
     private List<Timer> mTimers = new ArrayList<>();
 
-    @BindView(R.id.new_timer_fab)
-    FloatingActionButton newTimerFab;
-
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
-
-
 
 
     public MainActivityFragment() {
