@@ -41,18 +41,27 @@
 
         <NumberPicker
             android:id="@+id/newHourPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:divider="@color/colorPrimary"
+            android:fadingEdge="vertical"/>
 
         <NumberPicker
             android:id="@+id/newMinPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:divider="@color/colorPrimary"
+            android:fadingEdge="vertical"/>
 
         <NumberPicker
             android:id="@+id/newSecPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:divider="@color/colorPrimary"
+            android:fadingEdge="vertical"/>
 
 
     </LinearLayout>
