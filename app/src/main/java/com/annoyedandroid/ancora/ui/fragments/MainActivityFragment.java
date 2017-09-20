@@ -2,7 +2,6 @@ package com.annoyedandroid.ancora.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,14 +36,14 @@ public class MainActivityFragment extends Fragment {
         ButterKnife.bind(this.getActivity());
 
         //code for recyclerView
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
-
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new TimerAdapter(this.getActivity(), mTimers);
-
-        mRecyclerView.setAdapter(mAdapter);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+//
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        mRecyclerView.setHasFixedSize(true);
+//
+//        mAdapter = new TimerAdapter(this.getActivity(), mTimers);
+//
+//        mRecyclerView.setAdapter(mAdapter);
 
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
