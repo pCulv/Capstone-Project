@@ -1,22 +1,35 @@
 package com.annoyedandroid.ancora.ui.activities;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.annoyedandroid.ancora.R;
 
-public class NewTimerActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+import static com.annoyedandroid.ancora.R.drawable.abc_ic_ab_back_material;
+
+public class NewTimerActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    Drawable upArrow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_timer);
+        ButterKnife.bind(this);
 
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        upArrow = getDrawable(abc_ic_ab_back_material);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            upArrow.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
-
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }
 }

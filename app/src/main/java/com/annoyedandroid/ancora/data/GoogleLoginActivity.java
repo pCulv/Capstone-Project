@@ -28,14 +28,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GoogleLogin extends AppCompatActivity {
+public class GoogleLoginActivity extends AppCompatActivity {
 
+    private final static int RC_SIGN_IN = 2;
     GoogleApiClient mGoogleApiClient;
     @BindView(R.id.googleBtn) SignInButton signInButton;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
-
-    private final static int RC_SIGN_IN = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class GoogleLogin extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    Intent intent = new Intent(GoogleLogin.this, MainActivity.class);
+                    Intent intent = new Intent(GoogleLoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             }
@@ -78,7 +77,7 @@ public class GoogleLogin extends AppCompatActivity {
                         new GoogleApiClient.OnConnectionFailedListener() {
                             @Override
                             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                Toast.makeText(GoogleLogin.this, "Connection Failed",
+                                Toast.makeText(GoogleLoginActivity.this, "Connection Failed",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -116,13 +115,14 @@ public class GoogleLogin extends AppCompatActivity {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            //// TODO: 9/21/17 add code for to display user's info in the nav drawer
             firebaseAuthWithGoogle(acct);
 //            assert acct != null;
-//            Toast.makeText(GoogleLogin.this, "Welcome" + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(GoogleLoginActivity.this, "Welcome" + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
 
         } else {
             // Signed out, show unauthenticated UI.
-            Toast.makeText(GoogleLogin.this, "Auth went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GoogleLoginActivity.this, "Auth went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -141,7 +141,7 @@ public class GoogleLogin extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(GoogleLogin.this, "Authentication failed.",
+                            Toast.makeText(GoogleLoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
