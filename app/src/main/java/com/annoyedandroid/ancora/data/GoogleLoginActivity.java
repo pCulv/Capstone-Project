@@ -1,11 +1,15 @@
 package com.annoyedandroid.ancora.data;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
@@ -33,6 +37,11 @@ public class GoogleLoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 2;
     GoogleApiClient mGoogleApiClient;
     @BindView(R.id.googleBtn) SignInButton signInButton;
+    @Nullable@BindView(R.id.nameTxt) TextView mUserTextView;
+    @Nullable@BindView(R.id.emailTxt) TextView mEmailTextView;
+    @Nullable@BindView(R.id.profileImageView) ImageView mProfileImageView;
+
+    Context mContext;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -110,12 +119,21 @@ public class GoogleLoginActivity extends AppCompatActivity {
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    public void handleSignInResult(GoogleSignInResult result) {
         Log.d("TAG", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             //// TODO: 9/21/17 add code for to display user's info in the nav drawer
+//            mUserTextView.setText(acct.getDisplayName());
+//            mEmailTextView.setText(acct.getEmail());
+//            Uri uri = acct.getPhotoUrl();
+//            Picasso.with(mContext)
+//                    .load(uri)
+//                    .placeholder(android.R.drawable.sym_def_app_icon)
+//                    .error(android.R.drawable.sym_def_app_icon)
+//                    .into(mProfileImageView);
+
             firebaseAuthWithGoogle(acct);
 //            assert acct != null;
 //            Toast.makeText(GoogleLoginActivity.this, "Welcome" + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
@@ -125,6 +143,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
             Toast.makeText(GoogleLoginActivity.this, "Auth went wrong", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
