@@ -13,8 +13,6 @@ import static com.annoyedandroid.ancora.R.drawable.abc_ic_ab_back_material;
 
 public class NewTimerActivity extends MainActivity {
 
-//    @BindView(R.id.content_frame)
-//    FrameLayout mFrameLayout;
     Drawable upArrow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +20,8 @@ public class NewTimerActivity extends MainActivity {
         setContentView(R.layout.activity_new_timer);
         ButterKnife.bind(this);
 
-//        getLayoutInflater().inflate(R.layout.activity_new_timer, mFrameLayout);
 
-        setSupportActionBar(mToolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         upArrow = getDrawable(abc_ic_ab_back_material);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

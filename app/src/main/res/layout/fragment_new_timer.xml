@@ -3,10 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.annoyedandroid.ancora.ui.fragments.NewTimerFragment">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_home"
-        />
+
     <Button
         android:id="@+id/startBtn"
         style="@style/Widget.AppCompat.Button.Borderless"

@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
@@ -37,9 +34,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 2;
     GoogleApiClient mGoogleApiClient;
     @BindView(R.id.googleBtn) SignInButton signInButton;
-    @Nullable@BindView(R.id.nameTxt) TextView mUserTextView;
-    @Nullable@BindView(R.id.emailTxt) TextView mEmailTextView;
-    @Nullable@BindView(R.id.profileImageView) ImageView mProfileImageView;
+
 
     Context mContext;
     FirebaseAuth mAuth;
