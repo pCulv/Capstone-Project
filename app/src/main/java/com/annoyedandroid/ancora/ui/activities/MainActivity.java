@@ -1,6 +1,7 @@
 package com.annoyedandroid.ancora.ui.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawer() {
 
+        setSupportActionBar(mToolbar);
         //add drawer contents here
         mDrawerView
                 .addView(new DrawerHeader())
@@ -83,23 +85,37 @@ public class MainActivity extends AppCompatActivity {
                         DrawerMenuItem.DRAWER_MENU_ITEM_UPGRADE));
 
         mDrawerToggle =
-                    new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open,
-                            R.string.navigation_drawer_close) {
-                        @Override
-                        public void onDrawerOpened(View drawerView) {
-                            super.onDrawerOpened(drawerView);
+                new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open,
+                        R.string.navigation_drawer_close) {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                        supportInvalidateOptionsMenu();
+                    }
 
-                        }
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                        supportInvalidateOptionsMenu();
+                    }
+                };
 
-                        @Override
-                        public void onDrawerClosed(View drawerView) {
-                            super.onDrawerClosed(drawerView);
-
-                        }
-                    };
-            mDrawer.addDrawerListener(mDrawerToggle);
-            mDrawerToggle.setDrawerIndicatorEnabled(true);
-            mDrawerToggle.syncState();
-        }
+        mDrawer.addDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle.syncState();
     }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+}
 

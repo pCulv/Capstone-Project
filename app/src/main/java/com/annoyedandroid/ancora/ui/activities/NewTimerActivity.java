@@ -4,19 +4,17 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import com.annoyedandroid.ancora.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.annoyedandroid.ancora.R.drawable.abc_ic_ab_back_material;
 
-public class NewTimerActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+public class NewTimerActivity extends MainActivity {
+
+//    @BindView(R.id.content_frame)
+//    FrameLayout mFrameLayout;
     Drawable upArrow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +22,9 @@ public class NewTimerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_timer);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+//        getLayoutInflater().inflate(R.layout.activity_new_timer, mFrameLayout);
+
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         upArrow = getDrawable(abc_ic_ab_back_material);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

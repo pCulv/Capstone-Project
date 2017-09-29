@@ -10,12 +10,7 @@ import android.view.ViewGroup;
 
 import com.annoyedandroid.ancora.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewTimerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
+
 public class NewTimerFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -28,6 +23,7 @@ public class NewTimerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_new_timer, container, false);
     }
 
