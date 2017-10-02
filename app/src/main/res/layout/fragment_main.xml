@@ -7,8 +7,6 @@
     tools:context="com.annoyedandroid.ancora.ui.fragments.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

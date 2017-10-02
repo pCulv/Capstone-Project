@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:layout="http://schemas.android.com/apk/res-auto"
     tools:context="com.annoyedandroid.ancora.ui.fragments.NewTimerFragment">
 
     <Button
@@ -16,16 +17,15 @@
         android:textColor="@color/colorPrimary"
         android:textSize="18sp" />
 
-
     <EditText
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="38dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/enter_timer_name"
-        android:layout_below="@+id/toolbar"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <LinearLayout

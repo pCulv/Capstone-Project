@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -32,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawer;
     @BindView(R.id.nvView)
     NavigationView navDrawer;
+    @BindView(R.id.new_timer_fab)
+    FloatingActionButton mFab;
 
-    private ActionBarDrawerToggle drawerToggle;
+    protected ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +44,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().commit();
+        }
         setSupportActionBar(mToolbar);
 
         drawerToggle = setupDrawerToggle();
         mDrawer.addDrawerListener(drawerToggle);
 
-
-        FloatingActionButton fab = findViewById(R.id.new_timer_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("TAG", "Clicked");
                 Intent newTimer = new Intent(MainActivity.this, NewTimerActivity.class);
                 startActivity(newTimer);
             }
@@ -96,9 +102,11 @@ public class MainActivity extends AppCompatActivity {
         switch(menuItem.getItemId()) {
             case R.id.my_timers:
                 fragmentClass = MainActivityFragment.class;
+                mFab.setVisibility(View.VISIBLE);
                 break;
             case R.id.settings:
                 fragmentClass = SettingsFragment.class;
+                mFab.setVisibility(View.GONE);
                 break;
             case R.id.upgrade:
                 //todo build intent to open playstore for free version of app
