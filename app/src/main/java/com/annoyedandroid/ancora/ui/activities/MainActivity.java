@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = setupDrawerToggle();
         mDrawer.addDrawerListener(drawerToggle);
 
+
         FloatingActionButton fab = findViewById(R.id.new_timer_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +64,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -86,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_close);
     }
 
+
     public void selectDrawerItem(MenuItem menuItem) {
+
         Fragment fragment = null;
         Class fragmentClass = null;
         switch(menuItem.getItemId()) {
@@ -118,9 +123,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         menuItem.setChecked(true);
+
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
+
+
 
 
     @Override

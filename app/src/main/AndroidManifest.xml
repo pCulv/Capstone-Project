@@ -36,8 +36,12 @@
         <activity
             android:name=".data.GoogleLoginActivity"
             android:label="Ancora Sign In"
-            android:launchMode="singleTop"></activity>
-        <activity android:name=".ui.activities.SettingsActivity"></activity>
+            android:launchMode="singleTop">
+
+        </activity>
+        <activity android:name=".ui.activities.SettingsActivity">
+
+        </activity>
     </application>
 
 </manifest>
