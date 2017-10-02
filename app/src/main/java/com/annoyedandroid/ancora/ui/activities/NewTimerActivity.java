@@ -7,8 +7,6 @@ import android.os.Bundle;
 
 import com.annoyedandroid.ancora.R;
 
-import butterknife.ButterKnife;
-
 import static com.annoyedandroid.ancora.R.drawable.abc_ic_ab_back_material;
 
 public class NewTimerActivity extends MainActivity {
@@ -18,7 +16,7 @@ public class NewTimerActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_timer);
-        ButterKnife.bind(this);
+
 
 
 

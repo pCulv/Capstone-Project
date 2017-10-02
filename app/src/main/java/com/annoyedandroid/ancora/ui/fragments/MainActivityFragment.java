@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class MainActivityFragment extends Fragment {
@@ -33,7 +32,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ButterKnife.bind(this.getActivity());
+//        ButterKnife.bind(this.getActivity());
 
         //code for recyclerView
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
