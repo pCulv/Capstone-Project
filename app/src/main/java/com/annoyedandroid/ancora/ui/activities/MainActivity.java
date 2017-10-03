@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
 import com.annoyedandroid.ancora.ui.fragments.MainActivityFragment;
@@ -104,10 +105,34 @@ public class MainActivity extends AppCompatActivity {
             case R.id.my_timers:
                 fragmentClass = MainActivityFragment.class;
                 mFab.setVisibility(View.VISIBLE);
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+                menuItem.setChecked(true);
+
+                setTitle(menuItem.getTitle());
                 break;
             case R.id.settings:
                 fragmentClass = SettingsFragment.class;
                 mFab.setVisibility(View.GONE);
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                FragmentManager fragmentManager2 = getSupportFragmentManager();
+                fragmentManager2.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+                menuItem.setChecked(true);
+
+                setTitle(menuItem.getTitle());
                 break;
             case R.id.upgrade:
                 //todo build intent to open playstore for free version of app
@@ -115,25 +140,30 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.signOut:
                 //todo: perform google sign out
-                fragmentClass = MainActivityFragment.class;
+
+                mFab.setVisibility(View.GONE);
+                Toast.makeText(this, "this works", Toast.LENGTH_SHORT).show();
 
                 break;
             default:
                 fragmentClass = MainActivityFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                FragmentManager fragmentManager3 = getSupportFragmentManager();
+                fragmentManager3.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+                menuItem.setChecked(true);
+
+                setTitle(menuItem.getTitle());
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        menuItem.setChecked(true);
 
-        setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
 
