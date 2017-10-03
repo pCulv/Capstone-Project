@@ -33,9 +33,8 @@ public class GoogleLoginActivity extends AppCompatActivity {
 
     private final static int RC_SIGN_IN = 2;
     GoogleApiClient mGoogleApiClient;
-    @BindView(R.id.googleBtn) SignInButton signInButton;
-
-
+    @BindView(R.id.googleBtn)
+    SignInButton signInButton;
     Context mContext;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -87,8 +86,6 @@ public class GoogleLoginActivity extends AppCompatActivity {
                         })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
     }
 
     @Override

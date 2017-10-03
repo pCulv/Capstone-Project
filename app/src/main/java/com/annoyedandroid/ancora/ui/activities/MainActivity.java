@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = null;
         Class fragmentClass = null;
+
         switch(menuItem.getItemId()) {
             case R.id.my_timers:
                 fragmentClass = MainActivityFragment.class;
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.signOut:
                 //todo: perform google sign out
+                fragmentClass = MainActivityFragment.class;
 
                 break;
             default:
