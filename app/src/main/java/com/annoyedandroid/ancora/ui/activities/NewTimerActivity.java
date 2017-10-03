@@ -1,6 +1,7 @@
 package com.annoyedandroid.ancora.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -22,6 +23,7 @@ public class NewTimerActivity extends MainActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     Drawable upArrow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +37,25 @@ public class NewTimerActivity extends MainActivity {
         ButterKnife.bind(this);
 
 
-        drawerToggle.setDrawerIndicatorEnabled(false);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         upArrow = getDrawable(abc_ic_ab_back_material);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             upArrow.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        drawerToggle.setDrawerIndicatorEnabled(false);
+//
+        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Go back to main MainActivity
+                Intent goBack = new Intent(NewTimerActivity.this, MainActivity.class);
+                startActivity(goBack);
+            }
+        });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
