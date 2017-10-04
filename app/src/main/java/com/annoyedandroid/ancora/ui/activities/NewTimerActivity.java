@@ -29,14 +29,11 @@ public class NewTimerActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        //inflate your activity layout here!
         View contentView = inflater.inflate(R.layout.activity_new_timer, null, false);
         mDrawer.addView(contentView, 0);
-
-        mFab.setVisibility(View.GONE);
         ButterKnife.bind(this);
 
-
+        mFab.setVisibility(View.GONE);
 
         upArrow = getDrawable(abc_ic_ab_back_material);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

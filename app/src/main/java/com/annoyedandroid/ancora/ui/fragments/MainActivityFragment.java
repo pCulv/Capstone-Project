@@ -1,5 +1,6 @@
 package com.annoyedandroid.ancora.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainActivityFragment extends Fragment {
@@ -30,9 +32,16 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        ButterKnife.bind(this.getActivity());
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        ButterKnife.bind(this, view);
 
         //code for recyclerView
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
@@ -44,6 +53,7 @@ public class MainActivityFragment extends Fragment {
 //
 //        mRecyclerView.setAdapter(mAdapter);
 
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        return view;
     }
 }

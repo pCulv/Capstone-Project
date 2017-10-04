@@ -1,5 +1,6 @@
 package com.annoyedandroid.ancora.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -20,8 +21,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
+import com.annoyedandroid.ancora.data.GoogleLoginActivity;
+import com.annoyedandroid.ancora.ui.fragments.GoogleSignInFragment;
 import com.annoyedandroid.ancora.ui.fragments.MainActivityFragment;
 import com.annoyedandroid.ancora.ui.fragments.SettingsFragment;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +42,21 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navDrawer;
     @BindView(R.id.new_timer_fab)
     FloatingActionButton mFab;
+    SignInButton mGoogleSignInBtn;
+    GoogleApiClient mGoogleApiClient;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
+    Context mContext;
 
     protected ActionBarDrawerToggle drawerToggle;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth != null) {
+            mAuth.addAuthStateListener(mAuthListener);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().commit();
-        }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().commit();
+            }
         setSupportActionBar(mToolbar);
 
         drawerToggle = setupDrawerToggle();
@@ -63,9 +82,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(MainActivity.this, GoogleLoginActivity.class));
+                }
+            }
+        };
+
         setupDrawerContent(navDrawer);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void selectDrawerItem(MenuItem menuItem) {
-
+        mGoogleSignInBtn = findViewById(R.id.googleBtn);
         Fragment fragment = null;
         Class fragmentClass = null;
 
@@ -105,34 +132,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.my_timers:
                 fragmentClass = MainActivityFragment.class;
                 mFab.setVisibility(View.VISIBLE);
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-                menuItem.setChecked(true);
-
-                setTitle(menuItem.getTitle());
                 break;
             case R.id.settings:
                 fragmentClass = SettingsFragment.class;
                 mFab.setVisibility(View.GONE);
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                FragmentManager fragmentManager2 = getSupportFragmentManager();
-                fragmentManager2.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-                menuItem.setChecked(true);
-
-                setTitle(menuItem.getTitle());
                 break;
             case R.id.upgrade:
                 //todo build intent to open playstore for free version of app
@@ -140,35 +143,36 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.signOut:
                 //todo: perform google sign out
-
+                signOut();
+                mToolbar.setVisibility(View.GONE);
+                fragmentClass = GoogleSignInFragment.class;
                 mFab.setVisibility(View.GONE);
-                Toast.makeText(this, "this works", Toast.LENGTH_SHORT).show();
+
+                if (mGoogleSignInBtn != null) {
+                    mGoogleSignInBtn.setVisibility(View.VISIBLE);
+                }
 
                 break;
             default:
                 fragmentClass = MainActivityFragment.class;
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                FragmentManager fragmentManager3 = getSupportFragmentManager();
-                fragmentManager3.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-                menuItem.setChecked(true);
-
-                setTitle(menuItem.getTitle());
+                break;
         }
 
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
+        menuItem.setChecked(true);
+
+        setTitle(menuItem.getTitle());
 
         mDrawer.closeDrawers();
     }
-
-
-
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -180,6 +184,19 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        Toast.makeText(this, "You've been signed out.", Toast.LENGTH_SHORT).show();
+//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+//                new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(@NonNull Status status) {
+//
+//
+//                    }
+//                });
     }
 }
 

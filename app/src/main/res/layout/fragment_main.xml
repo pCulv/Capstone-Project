@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.annoyedandroid.ancora.ui.fragments.MainActivityFragment"
-    tools:showIn="@layout/activity_main">
+    >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -30,6 +30,7 @@
         android:elevation="8dp"
         android:src="@drawable/ic_alarm_add_white_24dp"
         app:elevation="14dp"
-        app:fabSize="normal" />
+        app:fabSize="normal"
+        />
 
 </RelativeLayout>
