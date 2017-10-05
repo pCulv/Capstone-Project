@@ -32,7 +32,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GoogleLoginActivity extends AppCompatActivity {
+public class GoogleSignInActivity extends AppCompatActivity {
 
     private final static int RC_SIGN_IN = 2;
     GoogleApiClient mGoogleApiClient;
@@ -70,7 +70,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    Intent intent = new Intent(GoogleLoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             }
@@ -90,7 +90,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
                         new GoogleApiClient.OnConnectionFailedListener() {
                             @Override
                             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                Toast.makeText(GoogleLoginActivity.this, "Connection Failed",
+                                Toast.makeText(GoogleSignInActivity.this, "Connection Failed",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -140,11 +140,11 @@ public class GoogleLoginActivity extends AppCompatActivity {
 
             firebaseAuthWithGoogle(acct);
 //            assert acct != null;
-//            Toast.makeText(GoogleLoginActivity.this, "Welcome" + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(GoogleSignInActivity.this, "Welcome" + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
 
         } else {
             // Signed out, show unauthenticated UI.
-            Toast.makeText(GoogleLoginActivity.this, "Auth went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GoogleSignInActivity.this, "Auth went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -164,7 +164,7 @@ public class GoogleLoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(GoogleLoginActivity.this, "Authentication failed.",
+                            Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

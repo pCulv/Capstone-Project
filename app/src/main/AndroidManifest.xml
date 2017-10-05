@@ -29,7 +29,7 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".data.GoogleLoginActivity"
+            android:name=".data.GoogleSignInActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
