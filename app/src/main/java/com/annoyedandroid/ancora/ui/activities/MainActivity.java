@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
-import com.annoyedandroid.ancora.data.GoogleLoginActivity;
 import com.annoyedandroid.ancora.ui.fragments.GoogleSignInFragment;
 import com.annoyedandroid.ancora.ui.fragments.MainActivityFragment;
 import com.annoyedandroid.ancora.ui.fragments.SettingsFragment;
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navDrawer;
     @BindView(R.id.new_timer_fab)
     FloatingActionButton mFab;
+    @Nullable@BindView(R.id.googleBtn)
     SignInButton mGoogleSignInBtn;
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth mAuth;
@@ -82,15 +82,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(MainActivity.this, GoogleLoginActivity.class));
-                }
-            }
-        };
-
         setupDrawerContent(navDrawer);
     }
 
@@ -124,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void selectDrawerItem(MenuItem menuItem) {
-        mGoogleSignInBtn = findViewById(R.id.googleBtn);
+
         Fragment fragment = null;
         Class fragmentClass = null;
 
@@ -142,16 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.signOut:
-                //todo: perform google sign out
                 signOut();
                 mToolbar.setVisibility(View.GONE);
                 fragmentClass = GoogleSignInFragment.class;
                 mFab.setVisibility(View.GONE);
-
-                if (mGoogleSignInBtn != null) {
-                    mGoogleSignInBtn.setVisibility(View.VISIBLE);
-                }
-
                 break;
             default:
                 fragmentClass = MainActivityFragment.class;
@@ -166,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
 
         menuItem.setChecked(true);
 
