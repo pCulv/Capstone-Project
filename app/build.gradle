@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'AncoraKey1'
             keyPassword 'dedicate08'
-            storeFile file('/home/phil/keystores/ancoraKey.jks')
+            storeFile file('/home/phil/AndroidStudioProjects/Ancora/app/ancoraKey.jks')
             storePassword 'dedicate08'
         }
     }
