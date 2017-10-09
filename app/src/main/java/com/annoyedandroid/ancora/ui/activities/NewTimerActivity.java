@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.annoyedandroid.ancora.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +24,10 @@ public class NewTimerActivity extends MainActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     Drawable upArrow;
+
+    // Access a Cloud Firestore instance from your Activity
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

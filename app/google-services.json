@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "535353841960-q8c8486itt553mggkbm2ap0jdjbc6ntg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.annoyedandroid.ancora",
+            "certificate_hash": "69cf267d95c1dfab12c8abd5b01dc51fda118a45"
+          }
+        },
+        {
           "client_id": "535353841960-7v3tcvadf6bgoahicqujfgq5bhs5q4kj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
