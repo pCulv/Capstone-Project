@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
+import com.annoyedandroid.ancora.data.GoogleSignInActivity;
 import com.annoyedandroid.ancora.ui.fragments.GoogleSignInFragment;
 import com.annoyedandroid.ancora.ui.fragments.MainActivityFragment;
 import com.annoyedandroid.ancora.ui.fragments.SettingsFragment;
@@ -113,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_close);
     }
 
-
     public void selectDrawerItem(MenuItem menuItem) {
 
         Fragment fragment = null;
@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.signOut:
                 signOut();
+                //opens login screen
+                startActivity(new Intent(MainActivity.this, GoogleSignInActivity.class));
                 mToolbar.setVisibility(View.GONE);
                 fragmentClass = GoogleSignInFragment.class;
                 mFab.setVisibility(View.GONE);
@@ -151,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
 
         menuItem.setChecked(true);
 
@@ -175,14 +176,6 @@ public class MainActivity extends AppCompatActivity {
     private void signOut() {
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(this, "You've been signed out.", Toast.LENGTH_SHORT).show();
-//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-//                new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(@NonNull Status status) {
-//
-//
-//                    }
-//                });
     }
 }
 
