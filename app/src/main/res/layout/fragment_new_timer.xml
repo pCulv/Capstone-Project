@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:layout="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:layout="http://schemas.android.com/apk/res-auto"
     tools:context="com.annoyedandroid.ancora.ui.fragments.NewTimerFragment">
 
     <Button
@@ -13,56 +14,106 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="19dp"
+        android:onClick="timerStart"
         android:text="Start"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/timerEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="118dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/enter_timer_name"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:text="@string/enter_timer_name" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/timerEditText"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:text="Hr"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Min"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Sec"
+
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/timePickerLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/timerEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="72dp"
         android:orientation="horizontal">
 
-        <NumberPicker
+        <com.shawnlin.numberpicker.NumberPicker
             android:id="@+id/newHourPicker"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:divider="@color/colorPrimary"
-            android:fadingEdge="vertical"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:np_dividerColor="@color/colorPrimary"
+            app:np_height="180dp"
+            app:np_max="99"
+            app:np_min="0"
+            app:np_selectedTextColor="@color/colorAccent"
+            app:np_textColor="@color/colorPrimary"
+            app:np_value="0"
+            app:np_width="64dp" />
 
-        <NumberPicker
+        <com.shawnlin.numberpicker.NumberPicker
             android:id="@+id/newMinPicker"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:divider="@color/colorPrimary"
-            android:fadingEdge="vertical"/>
+            app:np_dividerColor="@color/colorPrimary"
+            app:np_height="180dp"
+            app:np_max="99"
+            app:np_min="0"
+            app:np_selectedTextColor="@color/colorAccent"
+            app:np_textColor="@color/colorPrimary"
+            app:np_value="0"
+            app:np_width="64dp"
+            />
 
-        <NumberPicker
+        <com.shawnlin.numberpicker.NumberPicker
             android:id="@+id/newSecPicker"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:divider="@color/colorPrimary"
-            android:fadingEdge="vertical"/>
-
+            app:np_dividerColor="@color/colorPrimary"
+            app:np_height="180dp"
+            app:np_max="99"
+            app:np_min="0"
+            app:np_selectedTextColor="@color/colorAccent"
+            app:np_textColor="@color/colorPrimary"
+            app:np_value="0"
+            app:np_width="64dp" />
 
     </LinearLayout>
 </RelativeLayout>
