@@ -15,12 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.HashMap;
@@ -38,18 +42,29 @@ public class NewTimerActivity extends MainActivity {
     public static final String TIMER_MIN = "min";
     public static final String TIMER_SEC = "sec";
     private static final String TAG = "TAG";
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    public static final String NAME = "name";
+    public static final String EMAIL = "email";
+    public static final String USER_ID = "user id";
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     Drawable upArrow;
-    @Nullable@BindView(R.id.startBtn) Button startButton;
-    @Nullable@BindView(R.id.timerEditText) EditText timerEditTxt;
-    @Nullable@BindView(R.id.newHourPicker) NumberPicker hourNumbPicker;
-    @Nullable@BindView(R.id.newMinPicker) NumberPicker minNumbPicker;
-    @Nullable@BindView(R.id.newSecPicker) NumberPicker secNumbPicker;
+    @Nullable
+    @BindView(R.id.startBtn)
+    Button startButton;
+    EditText timerEditTxt;
+    @Nullable
+    @BindView(R.id.newHourPicker)
+    NumberPicker hourNumbPicker;
+    @Nullable
+    @BindView(R.id.newMinPicker)
+    NumberPicker minNumbPicker;
+    @Nullable
+    @BindView(R.id.newSecPicker)
+    NumberPicker secNumbPicker;
     // Access a Cloud Firestore instance from your Activity
 
-    private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("timers/timer");
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +75,19 @@ public class NewTimerActivity extends MainActivity {
         mDrawer.addView(contentView, 0);
         ButterKnife.bind(this);
 
+
+//        mAuth = FirebaseAuth.getInstance();
         mFab.setVisibility(View.GONE);
 
+        // nav up button to return to main activity
         upArrow = getDrawable(abc_ic_ab_back_material);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             upArrow.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         }
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+        // Nav drawer
         drawerToggle.setDrawerIndicatorEnabled(false);
-//
         drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,20 +100,28 @@ public class NewTimerActivity extends MainActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        timerEditTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timerEditTxt.setText("");
-            }
-        });
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timerStart();
-            }
-        });
+        // Clear Text in editText form
+        timerEditTxt = findViewById(R.id.timerEditText);
+        if (timerEditTxt != null) {
+            timerEditTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    timerEditTxt.setText("");
+                }
+            });
+        }
+        // Start button which will save timer to firestore and then start the timer
+        startButton = findViewById(R.id.startBtn);
+        if (startButton != null) {
+            startButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    timerStart();
+                }
+            });
+        }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,29 +135,57 @@ public class NewTimerActivity extends MainActivity {
 
     public void timerStart() {
 
+        // Retrieve current authenticated user from firebase
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String timerName = timerEditTxt != null ? timerEditTxt.toString() : null;
+        final String userName = currentUser.getDisplayName();
+        String email = currentUser.getEmail();
+        String uid = currentUser.getUid();
+
+        final String timerName = timerEditTxt != null ? timerEditTxt.getText().toString() : null;
         int timerHour = hourNumbPicker != null ? hourNumbPicker.getValue() : 0;
         int timerMin = minNumbPicker != null ? minNumbPicker.getValue() : 0;
         int timerSec = secNumbPicker != null ? secNumbPicker.getValue() : 0;
 
-        // Create new timer
-        Map<String, Object> timer = new HashMap<>();
-        timer.put(TIMER_NAME, timerName);
-        timer.put(TIMER_HOUR, timerHour);
-        timer.put(TIMER_MIN, timerMin);
-        timer.put(TIMER_SEC, timerSec);
+        // Document reference where the users timers will be saved in the database
+        DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("users")
+                .document(email)
+                .collection("timers")
+                .document(timerName);
+
+        Map<String, Object> user = new HashMap<>();
+
+            user.put(NAME, userName);
+            user.put(EMAIL, email);
+            user.put(USER_ID, uid);
+
+            Map<String, Object> timer = new HashMap<>();
+            timer.put(TIMER_NAME, timerName);
+            timer.put(TIMER_HOUR, timerHour);
+            timer.put(TIMER_MIN, timerMin);
+            timer.put(TIMER_SEC, timerSec);
+
+        db.collection("users").document(email)
+                    .set(user, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "onSuccess: User was added");
+                            Toast.makeText(NewTimerActivity.this, timerName.toUpperCase() + " timer created.", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: User was not added");
+                        }
+                    });
+        }
         
-        mDocRef.set(timer).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Timer has been saved");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Timer was not saved", e);
-            }
-        });
-    }
+
+        // Create new timer
+
+
+//        db.collection()
+
 }

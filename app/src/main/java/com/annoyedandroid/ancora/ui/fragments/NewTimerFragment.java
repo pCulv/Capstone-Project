@@ -20,9 +20,9 @@ public class NewTimerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_new_timer, container, false);
 
-
-        return inflater.inflate(R.layout.fragment_new_timer, container, false);
+        return view;
     }
 
 

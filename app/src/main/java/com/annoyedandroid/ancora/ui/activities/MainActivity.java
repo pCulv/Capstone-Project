@@ -151,8 +151,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
 
         menuItem.setChecked(true);
 
@@ -166,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
+
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
