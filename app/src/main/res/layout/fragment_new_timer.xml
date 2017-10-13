@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     tools:context="com.annoyedandroid.ancora.ui.fragments.NewTimerFragment">
 
     <Button
@@ -38,7 +39,8 @@
         android:orientation="horizontal"
         android:layout_marginTop="28dp"
         android:layout_below="@+id/timerEditText"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        >
 
         <TextView
             android:layout_width="0dp"

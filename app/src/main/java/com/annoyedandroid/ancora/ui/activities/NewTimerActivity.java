@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
+import com.annoyedandroid.ancora.model.Timer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -148,7 +149,7 @@ public class NewTimerActivity extends MainActivity {
         int timerSec = secNumbPicker != null ? secNumbPicker.getValue() : 0;
 
         // Document reference where the users timers will be saved in the database
-        DocumentReference mDocRef = FirebaseFirestore.getInstance().collection("users")
+        DocumentReference timerDocRef = FirebaseFirestore.getInstance().collection("users")
                 .document(email)
                 .collection("timers")
                 .document(timerName);
@@ -159,33 +160,38 @@ public class NewTimerActivity extends MainActivity {
             user.put(EMAIL, email);
             user.put(USER_ID, uid);
 
-            Map<String, Object> timer = new HashMap<>();
-            timer.put(TIMER_NAME, timerName);
-            timer.put(TIMER_HOUR, timerHour);
-            timer.put(TIMER_MIN, timerMin);
-            timer.put(TIMER_SEC, timerSec);
-
+        Timer timer = new Timer(timerName, timerHour, timerMin, timerSec);
+        // Save/creates user and adds them to users collection
         db.collection("users").document(email)
                     .set(user, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "onSuccess: User was added");
-                            Toast.makeText(NewTimerActivity.this, timerName.toUpperCase() + " timer created.", Toast.LENGTH_LONG).show();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: User was not added");
+                            Log.d(TAG, "onFailure: User was not added", e);
                         }
                     });
+        // Save user's timer to firestore
+        timerDocRef.set(timer, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(NewTimerActivity.this, timerName + " timer created", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(NewTimerActivity.this, "Error, timer not created", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Open MainActivity
+        startActivity(new Intent(NewTimerActivity.this, MainActivity.class));
         }
-        
-
-        // Create new timer
-
-
-//        db.collection()
-
 }
