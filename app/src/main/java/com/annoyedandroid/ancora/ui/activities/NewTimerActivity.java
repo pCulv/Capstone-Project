@@ -6,30 +6,16 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
-import com.annoyedandroid.ancora.model.Timer;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
-import com.shawnlin.numberpicker.NumberPicker;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.annoyedandroid.ancora.ui.fragments.NewTimerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,33 +24,14 @@ import static com.annoyedandroid.ancora.R.drawable.abc_ic_ab_back_material;
 
 //Extends MainActivity to allow Nav Bar functionality
 public class NewTimerActivity extends MainActivity {
-    public static final String TIMER_HOUR = "hour";
-    public static final String TIMER_NAME = "timer name";
-    public static final String TIMER_MIN = "min";
-    public static final String TIMER_SEC = "sec";
-    private static final String TAG = "TAG";
-    public static final String NAME = "name";
-    public static final String EMAIL = "email";
-    public static final String USER_ID = "user id";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     Drawable upArrow;
     @Nullable
     @BindView(R.id.startBtn)
     Button startButton;
-    EditText timerEditTxt;
-    @Nullable
-    @BindView(R.id.newHourPicker)
-    NumberPicker hourNumbPicker;
-    @Nullable
-    @BindView(R.id.newMinPicker)
-    NumberPicker minNumbPicker;
-    @Nullable
-    @BindView(R.id.newSecPicker)
-    NumberPicker secNumbPicker;
-    // Access a Cloud Firestore instance from your Activity
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -76,8 +43,10 @@ public class NewTimerActivity extends MainActivity {
         mDrawer.addView(contentView, 0);
         ButterKnife.bind(this);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        NewTimerFragment newTimerFragment = new NewTimerFragment();
+        fragmentManager.beginTransaction().replace(R.id.newTimerContainer, newTimerFragment).commit();
 
-//        mAuth = FirebaseAuth.getInstance();
         mFab.setVisibility(View.GONE);
 
         // nav up button to return to main activity
@@ -101,29 +70,9 @@ public class NewTimerActivity extends MainActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        // Clear Text in editText form
-        timerEditTxt = findViewById(R.id.timerEditText);
-        if (timerEditTxt != null) {
-            timerEditTxt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    timerEditTxt.setText("");
-                }
-            });
-        }
-        // Start button which will save timer to firestore and then start the timer
-        startButton = findViewById(R.id.startBtn);
-        if (startButton != null) {
-            startButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    timerStart();
-                }
-            });
-        }
+
+
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -134,64 +83,5 @@ public class NewTimerActivity extends MainActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void timerStart() {
 
-        // Retrieve current authenticated user from firebase
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        final String userName = currentUser.getDisplayName();
-        String email = currentUser.getEmail();
-        String uid = currentUser.getUid();
-
-        final String timerName = timerEditTxt != null ? timerEditTxt.getText().toString() : null;
-        int timerHour = hourNumbPicker != null ? hourNumbPicker.getValue() : 0;
-        int timerMin = minNumbPicker != null ? minNumbPicker.getValue() : 0;
-        int timerSec = secNumbPicker != null ? secNumbPicker.getValue() : 0;
-
-        // Document reference where the users timers will be saved in the database
-        DocumentReference timerDocRef = FirebaseFirestore.getInstance().collection("users")
-                .document(email)
-                .collection("timers")
-                .document(timerName);
-
-        Map<String, Object> user = new HashMap<>();
-
-            user.put(NAME, userName);
-            user.put(EMAIL, email);
-            user.put(USER_ID, uid);
-
-        Timer timer = new Timer(timerName, timerHour, timerMin, timerSec);
-        // Save/creates user and adds them to users collection
-        db.collection("users").document(email)
-                    .set(user, SetOptions.merge())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "onSuccess: User was added");
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: User was not added", e);
-                        }
-                    });
-        // Save user's timer to firestore
-        timerDocRef.set(timer, SetOptions.merge())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(NewTimerActivity.this, timerName + " timer created", Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(NewTimerActivity.this, "Error, timer not created", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Open MainActivity
-        startActivity(new Intent(NewTimerActivity.this, MainActivity.class));
-        }
 }

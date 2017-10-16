@@ -33,16 +33,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
-    @BindView(R.id.toolbar)
+    @Nullable @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.drawer_layout)
+    @Nullable @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
-    @BindView(R.id.nvView)
+    @Nullable @BindView(R.id.nvView)
     NavigationView navDrawer;
-    @BindView(R.id.new_timer_fab)
+    @Nullable @BindView(R.id.new_timer_fab)
     FloatingActionButton mFab;
-    @Nullable@BindView(R.id.googleBtn)
+    @Nullable @BindView(R.id.googleBtn)
     SignInButton mGoogleSignInBtn;
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth mAuth;
