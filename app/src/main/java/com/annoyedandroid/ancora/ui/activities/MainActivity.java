@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     Context mContext;
 
+
     protected ActionBarDrawerToggle drawerToggle;
 
     @Override

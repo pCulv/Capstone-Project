@@ -10,6 +10,10 @@ public class Timer {
 
     public Timer() {}
 
+    public Timer(String timerName) {
+        this.timerName = timerName;
+    }
+
     public Timer(String timerName, Integer hour, Integer minute, Integer second) {
         this.timerName = timerName;
         this.hour = hour;

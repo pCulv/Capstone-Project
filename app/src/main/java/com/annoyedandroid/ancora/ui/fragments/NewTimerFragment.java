@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,15 +112,15 @@ public class NewTimerFragment extends Fragment {
         String email = currentUser.getEmail();
         String uid = currentUser.getUid();
 
+        // Saver Unique timer to database
         mDatabase.child("users").child(uid).child("timers").push().setValue(timer);
-        Log.d(TAG, "writeNewTimer: Timer Saved");
     }
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Toast.makeText(context, "attached", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
