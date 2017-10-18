@@ -102,11 +102,15 @@ public class MainActivityFragment extends Fragment {
 
     // retrieve all timers from database to recyclerview
     private void getAllTask(DataSnapshot dataSnapshot){
+
         for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
 
-            mTimers.add(new Timer());
-            mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
-            mRecyclerView.setAdapter(mAdapter);
+            if (java.util.Objects.equals(singleSnapshot.getKey(), "timerName")) {
+                String timerName = singleSnapshot.getValue(String.class);
+                mTimers.add(new Timer(timerName));
+                mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
+                mRecyclerView.setAdapter(mAdapter);
+            }
         }
     }
 
