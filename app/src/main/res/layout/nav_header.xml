@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_Header"
     android:layout_width="match_parent"
     android:layout_height="178dp"
     android:orientation="vertical"
@@ -10,10 +11,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="left|top"
-        android:layout_marginTop="55dp" />
+        android:layout_marginTop="55dp"
+        />
     <TextView
         android:id="@+id/nameTxt"
-        android:text="Phil Culver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
@@ -22,7 +23,6 @@
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/emailTxt"
-        android:text="philculver@gmail.com"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"

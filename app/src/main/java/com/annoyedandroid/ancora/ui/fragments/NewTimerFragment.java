@@ -26,14 +26,6 @@ import java.util.Objects;
 
 public class NewTimerFragment extends Fragment {
 
-    public static final String TIMER_HOUR = "hour";
-    public static final String TIMER_NAME = "timer name";
-    public static final String TIMER_MIN = "min";
-    public static final String TIMER_SEC = "sec";
-    private static final String TAG = "TAG";
-    public static final String NAME = "name";
-    public static final String EMAIL = "email";
-    public static final String USER_ID = "user id";
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     Button startButton;
     EditText timerEditTxt;
