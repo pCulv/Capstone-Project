@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
@@ -40,6 +41,8 @@ public class MainActivityFragment extends Fragment {
     private DatabaseReference databaseReference;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.timers_progress_bar)
+    ProgressBar progressBar;
     @Nullable
     @BindView(R.id.new_timer_fab)
     FloatingActionButton mFab;
@@ -80,6 +83,7 @@ public class MainActivityFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 getAllTask(dataSnapshot);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
