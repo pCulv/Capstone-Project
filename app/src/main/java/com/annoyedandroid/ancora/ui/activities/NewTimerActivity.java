@@ -20,8 +20,6 @@ import com.annoyedandroid.ancora.ui.fragments.NewTimerFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.annoyedandroid.ancora.R.drawable.abc_ic_ab_back_material;
-
 //Extends MainActivity to allow Nav Bar functionality
 public class NewTimerActivity extends MainActivity {
 
@@ -33,7 +31,6 @@ public class NewTimerActivity extends MainActivity {
     Button startButton;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +40,13 @@ public class NewTimerActivity extends MainActivity {
         mDrawer.addView(contentView, 0);
         ButterKnife.bind(this);
 
+        // Creates Fragment inside activity
         FragmentManager fragmentManager = getSupportFragmentManager();
         NewTimerFragment newTimerFragment = new NewTimerFragment();
-        fragmentManager.beginTransaction().replace(R.id.newTimerContainer, newTimerFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, newTimerFragment).commit();
 
-        mFab.setVisibility(View.GONE);
 
         // nav up button to return to main activity
-        upArrow = getDrawable(abc_ic_ab_back_material);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            upArrow.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
-        }
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         // Nav drawer
@@ -67,21 +60,35 @@ public class NewTimerActivity extends MainActivity {
             }
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
+        if (toolbar != null) {
+            Drawable closeIcon = getDrawable(R.drawable.ic_close_black_24dp);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                closeIcon.setColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            }
+            getSupportActionBar().setHomeAsUpIndicator(closeIcon);
+
+        }
 
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(NewTimerActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }

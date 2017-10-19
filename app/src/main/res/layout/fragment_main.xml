@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.annoyedandroid.ancora.ui.activities.MainActivity"
-    >
-
+    tools:context="com.annoyedandroid.ancora.ui.activities.MainActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/new_timer_fab"
@@ -20,19 +18,16 @@
         android:elevation="8dp"
         android:src="@drawable/ic_alarm_add_white_24dp"
         app:elevation="14dp"
-        app:fabSize="normal"
-        />
+        app:fabSize="normal" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:fitsSystemWindows="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="84dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </RelativeLayout>

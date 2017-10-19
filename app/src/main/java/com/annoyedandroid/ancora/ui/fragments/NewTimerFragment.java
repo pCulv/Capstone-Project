@@ -50,8 +50,6 @@ public class NewTimerFragment extends Fragment {
                              Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_new_timer, container, false);
 
-
-
         // Clear Text in editText form
         timerEditTxt = view.findViewById(R.id.timerEditText);
         if (timerEditTxt != null) {

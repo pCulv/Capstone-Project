@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -33,15 +31,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    @Nullable @BindView(R.id.toolbar)
+    @Nullable
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Nullable @BindView(R.id.drawer_layout)
+    @Nullable
+    @BindView(R.id.drawer_layout)
     DrawerLayout mDrawer;
-    @Nullable @BindView(R.id.nvView)
+    @Nullable
+    @BindView(R.id.nvView)
     NavigationView navDrawer;
-    @Nullable @BindView(R.id.new_timer_fab)
-    FloatingActionButton mFab;
-    @Nullable @BindView(R.id.googleBtn)
+
+    @Nullable
+    @BindView(R.id.googleBtn)
     SignInButton mGoogleSignInBtn;
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth mAuth;
@@ -65,23 +66,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (savedInstanceState == null) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().commit();
-            }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        MainActivityFragment mainActivityFragment = new MainActivityFragment();
+        fragmentManager.beginTransaction().replace(R.id.flContent, mainActivityFragment).commit();
+
         setSupportActionBar(mToolbar);
 
         drawerToggle = setupDrawerToggle();
         mDrawer.addDrawerListener(drawerToggle);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("TAG", "Clicked");
-                Intent newTimer = new Intent(MainActivity.this, NewTimerActivity.class);
-                startActivity(newTimer);
-            }
-        });
 
         setupDrawerContent(navDrawer);
     }
@@ -119,18 +113,15 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass = null;
 
-        switch(menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
             case R.id.my_timers:
                 fragmentClass = MainActivityFragment.class;
-                mFab.setVisibility(View.VISIBLE);
                 break;
             case R.id.settings:
                 fragmentClass = SettingsFragment.class;
-                mFab.setVisibility(View.GONE);
                 break;
             case R.id.upgrade:
                 //todo build intent to open playstore for free version of app
-
                 break;
             case R.id.signOut:
                 signOut();
@@ -138,24 +129,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GoogleSignInActivity.class));
                 mToolbar.setVisibility(View.GONE);
                 fragmentClass = GoogleSignInFragment.class;
-                mFab.setVisibility(View.GONE);
+//                mFab.setVisibility(View.GONE);
                 break;
             default:
                 fragmentClass = MainActivityFragment.class;
                 break;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (fragmentClass != null) {
+            try {
 
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-
         menuItem.setChecked(true);
 
         setTitle(menuItem.getTitle());
@@ -168,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
-
 
 
     @Override
