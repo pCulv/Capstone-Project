@@ -45,7 +45,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
         //todo: load chronometer that has been started after timer creation
         // start timer countdown
 
-
+        // This is filled in with dummy data
         long timerHour = TimeUnit.HOURS.toMillis(2);
         long timerMin = TimeUnit.MINUTES.toMillis(45);
         long timerSec = TimeUnit.SECONDS.toMillis(14);
@@ -61,6 +61,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
 
             @Override
             public void onFinish() {
+                // Todo: build notification service to notify the user when their timer expires
                 Toast.makeText(mContext, "Timer Finished", Toast.LENGTH_SHORT).show();
             }
         }.start();
