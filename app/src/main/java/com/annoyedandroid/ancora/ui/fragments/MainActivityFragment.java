@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
 import com.annoyedandroid.ancora.model.Timer;
@@ -33,13 +32,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.annoyedandroid.ancora.R.id.recyclerView;
+
 
 public class MainActivityFragment extends Fragment {
 
     private TimerAdapter mAdapter;
     private List<Timer> mTimers = new ArrayList<>();
     private DatabaseReference databaseReference;
-    @BindView(R.id.recyclerView)
+    @BindView(recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.timers_progress_bar)
     ProgressBar progressBar;
@@ -47,7 +48,7 @@ public class MainActivityFragment extends Fragment {
     @BindView(R.id.new_timer_fab)
     FloatingActionButton mFab;
     Context mContext;
-
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
 
     public MainActivityFragment() {
     }
@@ -62,21 +63,19 @@ public class MainActivityFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         //code for recyclerView
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
 //        mAdapter = new TimerAdapter(mTimers, mContext);
 //
+//
 //        mRecyclerView.setAdapter(mAdapter);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("users/" + uid + "/timers");
-
-
-
 
         databaseReference.orderByChild("timerName").addChildEventListener(new ChildEventListener() {
             @Override
@@ -104,7 +103,10 @@ public class MainActivityFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Failed to load timers", Toast.LENGTH_SHORT).show();
+
+                if (mTimers.size() == 0) {
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -131,6 +133,7 @@ public class MainActivityFragment extends Fragment {
                 mTimers.add(new Timer(timerName));
                 mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
                 mRecyclerView.setAdapter(mAdapter);
+
             }
         }
     }

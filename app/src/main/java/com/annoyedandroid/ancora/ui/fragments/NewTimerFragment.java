@@ -3,7 +3,6 @@ package com.annoyedandroid.ancora.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
 import com.annoyedandroid.ancora.model.Timer;
-import com.annoyedandroid.ancora.ui.activities.MainActivity;
+import com.annoyedandroid.ancora.ui.adapters.TimerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +25,9 @@ import java.util.Objects;
 
 public class NewTimerFragment extends Fragment {
 
+    public static final String HOUR = "Hour";
+    public static final String MIN = "Min";
+    public static final String SEC = "Sec";
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     Button startButton;
     EditText timerEditTxt;
@@ -83,11 +85,16 @@ public class NewTimerFragment extends Fragment {
             // Save user's timer
             writeNewTimer(timerName, timerHour, timerMin, timerSec);
             // Open MainActivity
-            startActivity(new Intent(getContext(), MainActivity.class));
+            // TODO: 10/20/17 set intent extras to save countdown timer for mainActivity to start the timer
+            Intent intent = new Intent(getContext(), TimerAdapter.class);
+            intent.putExtra(HOUR, timerHour);
+            intent.putExtra(MIN, timerMin);
+            intent.putExtra(SEC, timerSec);
 
-            Snackbar snackbar = Snackbar.make(getView(), timerName + " Timer Saved",
-                    Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            startActivity(intent);
+
+            Toast.makeText(this.getActivity(), timerName + " Timer Saved", Toast.LENGTH_SHORT).show();
+
         }
     }
 

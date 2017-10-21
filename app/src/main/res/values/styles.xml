@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+        <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
 
     </style>
     <!--use item name="drawerArrowStyle" if you are using dark primaryColor in your app, else remove it-->
