@@ -67,6 +67,13 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
         }.start();
     }
 
+//    public void bundle(Bundle bundle) {
+//
+//        long getHour = bundle.getLong(NewTimerFragment.HOUR, TIMER_HOUR);
+//        long getMin = bundle.getInt(NewTimerFragment.MIN, TIMER_MIN);
+//        long getSec = bundle.getInt(NewTimerFragment.SEC, TIMER_SEC) ;
+//
+//    }
     @Override
     public int getItemCount() {
         return this.mTimers.size();

@@ -12,13 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Standup Reminder" />
+        tools:text="Standup Reminder"
+        tools:layout_editor_absoluteY="100dp" />
 
     <Button
         android:id="@+id/deleteBtn"
@@ -52,11 +51,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="32dp"
         android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="0.284"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerTitle">
+        tools:layout_editor_absoluteY="194dp">
 
         <NumberPicker
             android:id="@+id/hourPicker"

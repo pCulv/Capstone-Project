@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,8 +43,7 @@ public class MainActivityFragment extends Fragment {
     private DatabaseReference databaseReference;
     @BindView(recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.noTimerPlaceHolder)
-    ImageView noTimerPlaceHolder;
+
     @BindView(R.id.timers_progress_bar)
     ProgressBar progressBar;
     @Nullable
@@ -84,7 +82,7 @@ public class MainActivityFragment extends Fragment {
         databaseReference.orderByChild("timerName").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                noTimerPlaceHolder.setVisibility(View.GONE);
+
                 getAllTask(dataSnapshot);
                 progressBar.setVisibility(View.GONE);
 
@@ -111,7 +109,7 @@ public class MainActivityFragment extends Fragment {
 
                 if (mTimers.size() == 0) {
                     progressBar.setVisibility(View.GONE);
-                    noTimerPlaceHolder.setVisibility(View.VISIBLE);
+
 
                     Toast.makeText(getActivity(), "Please Create New Timer", Toast.LENGTH_SHORT).show();
                 }

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
 import com.annoyedandroid.ancora.model.Timer;
-import com.annoyedandroid.ancora.ui.adapters.TimerAdapter;
+import com.annoyedandroid.ancora.ui.activities.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -86,7 +86,7 @@ public class NewTimerFragment extends Fragment {
             writeNewTimer(timerName, timerHour, timerMin, timerSec);
             // Open MainActivity
             // TODO: 10/20/17 set intent extras to save countdown timer for mainActivity to start the timer
-            Intent intent = new Intent(getContext(), TimerAdapter.class);
+            Intent intent = new Intent(getContext(), MainActivity.class);
             intent.putExtra(HOUR, timerHour);
             intent.putExtra(MIN, timerMin);
             intent.putExtra(SEC, timerSec);
