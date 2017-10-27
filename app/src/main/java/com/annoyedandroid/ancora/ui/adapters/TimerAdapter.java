@@ -1,26 +1,27 @@
 package com.annoyedandroid.ancora.ui.adapters;
 
 import android.content.Context;
-import android.os.CountDownTimer;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
 import com.annoyedandroid.ancora.model.Timer;
+import com.annoyedandroid.ancora.ui.fragments.NewTimerFragment;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerViewHolders> {
 
     private List<Timer> mTimers;
     private Context mContext;
-
+    private int TIMER_HOUR;
+    private int TIMER_MIN;
+    private int TIMER_SEC;
 
     public TimerAdapter(List<Timer> mTimers, Context mContext) {
         this.mTimers = mTimers;
@@ -46,34 +47,21 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
         // start timer countdown
 
         // This is filled in with dummy data
-        long timerHour = TimeUnit.HOURS.toMillis(2);
-        long timerMin = TimeUnit.MINUTES.toMillis(45);
-        long timerSec = TimeUnit.SECONDS.toMillis(14);
+        Bundle bundle = new Bundle();
 
-        long totalTime = timerHour + timerMin + timerSec;
 
-        new CountDownTimer(totalTime, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                holder.timerChronometer.setText((millisUntilFinished / 3600000) + ":" +
-                        (millisUntilFinished % 3600000 / 60000) + ":"+(millisUntilFinished % 60000 / 1000));
-            }
 
-            @Override
-            public void onFinish() {
-                // Todo: build notification service to notify the user when their timer expires
-                Toast.makeText(mContext, "Timer Finished", Toast.LENGTH_SHORT).show();
-            }
-        }.start();
+
+
     }
 
-//    public void bundle(Bundle bundle) {
-//
-//        long getHour = bundle.getLong(NewTimerFragment.HOUR, TIMER_HOUR);
-//        long getMin = bundle.getInt(NewTimerFragment.MIN, TIMER_MIN);
-//        long getSec = bundle.getInt(NewTimerFragment.SEC, TIMER_SEC) ;
-//
-//    }
+    public void bundle(Bundle bundle) {
+
+        long getHour = bundle.getInt(NewTimerFragment.HOUR, TIMER_HOUR);
+        long getMin = bundle.getInt(NewTimerFragment.MIN, TIMER_MIN);
+        long getSec = bundle.getInt(NewTimerFragment.SEC, TIMER_SEC) ;
+
+    }
     @Override
     public int getItemCount() {
         return this.mTimers.size();

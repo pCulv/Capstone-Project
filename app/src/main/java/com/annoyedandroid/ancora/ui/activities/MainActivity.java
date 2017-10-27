@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         // Set Contents of Nav drawer
         setupDrawerContent(navDrawer);
     }
+    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -33,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.ContentValues.TAG;
 import static com.annoyedandroid.ancora.R.id.recyclerView;
 
 
@@ -67,23 +68,21 @@ public class MainActivityFragment extends Fragment {
         //code for recyclerView
 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setReverseLayout(true);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
 
-//        mAdapter = new TimerAdapter(mTimers, mContext);
-//
-//
-//        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("users/" + uid + "/timers");
 
-        databaseReference.orderByChild("timerName").addChildEventListener(new ChildEventListener() {
+        databaseReference.orderByChild("timers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 getAllTask(dataSnapshot);
+
                 progressBar.setVisibility(View.GONE);
 
             }
@@ -96,7 +95,7 @@ public class MainActivityFragment extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                getAllTask(dataSnapshot);
             }
 
             @Override
@@ -126,6 +125,7 @@ public class MainActivityFragment extends Fragment {
                 }
             });
         }
+
         return view;
     }
 
@@ -139,7 +139,8 @@ public class MainActivityFragment extends Fragment {
                 mTimers.add(new Timer(timerName));
                 mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
                 mRecyclerView.setAdapter(mAdapter);
-
+                mRecyclerView.scrollToPosition(mTimers.size() - 1);
+                Log.i(TAG, "size of timers= " + mTimers.size());
             }
         }
     }

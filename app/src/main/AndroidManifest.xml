@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.annoyedandroid.ancora">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
+
+
+    </uses-permission>
 
     <application
         android:allowBackup="true"
@@ -43,6 +47,15 @@
         <activity android:name=".ui.activities.SignOutActivity">
 
         </activity>
+
+        <receiver android:name=".data.Alarm">
+
+        </receiver>
+
+        <service
+            android:name=".data.TimerService"
+            android:enabled="true"
+            android:process=":timer_service"/>
     </application>
 
 </manifest>

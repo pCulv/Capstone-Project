@@ -30,7 +30,6 @@ public class NewTimerActivity extends MainActivity {
     @BindView(R.id.startBtn)
     Button startButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

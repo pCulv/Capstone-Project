@@ -15,7 +15,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintLeft_toLeftOf="paren"
+        app:layout_constraintLeft_toLeftOf="parent"
         tools:text="Standup Reminder"
         tools:layout_editor_absoluteY="100dp" />
 
