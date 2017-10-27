@@ -33,7 +33,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.ContentValues.TAG;
 import static com.annoyedandroid.ancora.R.id.recyclerView;
 
 
@@ -140,7 +139,7 @@ public class MainActivityFragment extends Fragment {
                 mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.scrollToPosition(mTimers.size() - 1);
-                Log.i(TAG, "size of timers= " + mTimers.size());
+
             }
         }
     }

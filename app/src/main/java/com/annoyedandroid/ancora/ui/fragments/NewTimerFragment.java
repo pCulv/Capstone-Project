@@ -108,16 +108,14 @@ public class NewTimerFragment extends Fragment {
             // Open MainActivity
             // TODO: 10/20/17 set intent extras to save countdown timer for mainActivity to start the timer
             Intent intent = new Intent(getContext(), MainActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt(HOUR, timerHour);
-            bundle.putInt(MIN, timerMin);
-            bundle.putInt(SEC, timerSec);
-
-            intent.putExtras(bundle);
+            Intent serviceIntent = new Intent(getActivity(), TimerService.class);
+            serviceIntent.putExtra(HOUR, timerHour);
+            serviceIntent.putExtra(MIN, timerMin);
+            serviceIntent.putExtra(SEC, timerSec);
             // open mainActivity
             startActivity(intent);
             // start countdown service
-            getActivity().startService(new Intent(this.getActivity(), TimerService.class));
+            getActivity().startService(serviceIntent);
             Log.i(TAG, "Service Started");
 //            Toast.makeText(this.getActivity(), timerName + " Timer Saved", Toast.LENGTH_SHORT).show();
 

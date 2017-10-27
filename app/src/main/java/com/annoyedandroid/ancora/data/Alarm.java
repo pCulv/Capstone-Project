@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import android.widget.Toast;
 
 public class Alarm extends BroadcastReceiver {
     @Override
@@ -17,7 +16,6 @@ public class Alarm extends BroadcastReceiver {
         wl.acquire(10*60*1000L /*10 minutes*/);
 
         // Code for notification for timers starting goes here
-        Toast.makeText(context, "Timer Started", Toast.LENGTH_LONG).show(); // For example
 
         wl.release();
     }

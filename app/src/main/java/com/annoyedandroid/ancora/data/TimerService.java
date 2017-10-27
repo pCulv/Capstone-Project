@@ -38,7 +38,7 @@ public class TimerService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         alarm.setAlarm(this);
 
-        if (intent != null) {
+//        if (intent != null) {
 
             Log.i(TAG, "Starting timer...");
             // Todo: retrieve timer from database
@@ -56,8 +56,7 @@ public class TimerService extends Service{
             cdt = new CountDownTimer(totalTime, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-//                timerChronometer.setText((millisUntilFinished / 3600000) + ":" +
-//                        (millisUntilFinished % 3600000 / 60000) + ":"+(millisUntilFinished % 60000 / 1000));
+
                     Log.i(TAG, "Countdown seconds remaining: " + millisUntilFinished / 1000);
 
                     // Todo: place total time retrieved from database for timer here
@@ -74,7 +73,7 @@ public class TimerService extends Service{
             };
 
             cdt.start();
-        }
+//        }
         return START_STICKY;
     }
 
