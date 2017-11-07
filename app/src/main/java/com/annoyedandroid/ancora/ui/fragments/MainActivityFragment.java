@@ -1,5 +1,6 @@
 package com.annoyedandroid.ancora.ui.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.annoyedandroid.ancora.R;
-import com.annoyedandroid.ancora.model.Timer;
+import com.annoyedandroid.ancora.model.TimerModel;
 import com.annoyedandroid.ancora.ui.activities.NewTimerActivity;
 import com.annoyedandroid.ancora.ui.adapters.TimerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,11 +40,11 @@ import static com.annoyedandroid.ancora.R.id.recyclerView;
 public class MainActivityFragment extends Fragment {
 
     private TimerAdapter mAdapter;
-    private List<Timer> mTimers = new ArrayList<>();
+    private List<TimerModel> mTimers = new ArrayList<>();
     private DatabaseReference databaseReference;
     @BindView(recyclerView)
     RecyclerView mRecyclerView;
-
+    private final static String TAG = "BroadcastService";
     @BindView(R.id.timers_progress_bar)
     ProgressBar progressBar;
     @Nullable
@@ -55,7 +56,13 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
     }
 
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Broadcase Received");
 
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +74,7 @@ public class MainActivityFragment extends Fragment {
         //code for recyclerView
 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(true);
+        layoutManager.setReverseLayout(false);
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setHasFixedSize(true);
@@ -109,7 +116,7 @@ public class MainActivityFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
 
 
-                    Toast.makeText(getActivity(), "Please Create New Timer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please Create New TimerModel", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -135,24 +142,14 @@ public class MainActivityFragment extends Fragment {
 
             if (java.util.Objects.equals(singleSnapshot.getKey(), "timerName")) {
                 String timerName = singleSnapshot.getValue(String.class);
-                mTimers.add(new Timer(timerName));
+                mTimers.add(new TimerModel(timerName));
                 mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.scrollToPosition(mTimers.size() - 1);
 
+
             }
         }
     }
-
-//    private void deleteTimer(DataSnapshot dataSnapshot) {
-//        for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-//            String timerName = singleSnapshot.getValue(String.class);
-//            for (int i = 0; i < mTimers.size(); i++) {
-//                if (mTimers.get(i).getTimerName().equals(timerName)) {
-//                    mTimers.remove(i);
-//                }
-//            }
-
-
 
 }

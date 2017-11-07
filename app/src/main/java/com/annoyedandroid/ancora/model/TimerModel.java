@@ -1,20 +1,20 @@
 package com.annoyedandroid.ancora.model;
 
 
-public class Timer {
+public class TimerModel {
 
     private String timerName;
     private Integer hour;
     private Integer minute;
     private Integer second;
 
-    public Timer() {}
+    public TimerModel() {}
 
-    public Timer(String timerName) {
+    public TimerModel(String timerName) {
         this.timerName = timerName;
     }
 
-    public Timer(String timerName, Integer hour, Integer minute, Integer second) {
+    public TimerModel(String timerName, Integer hour, Integer minute, Integer second) {
         this.timerName = timerName;
         this.hour = hour;
         this.minute = minute;
