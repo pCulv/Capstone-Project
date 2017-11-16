@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -52,7 +53,7 @@ public class TimerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         alarm.setAlarm(this);
 
-        String getTimerName = intent.getStringExtra(NewTimerFragment.TIMER_NAME);
+        final String getTimerName = intent.getStringExtra(NewTimerFragment.TIMER_NAME);
         int getHour = intent.getIntExtra(NewTimerFragment.HOUR, 0);
         int getMin = intent.getIntExtra(NewTimerFragment.MIN, 0);
         int getSec = intent.getIntExtra(NewTimerFragment.SEC, 0);
@@ -66,12 +67,36 @@ public class TimerService extends Service {
 
         long totalTime = timerHour + timerMin + timerSec;
 
-
-
-
+        // If true service starts
         if (Objects.equals(intent.getAction(), ACTION_FOREGROUND)) {
-            Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
+
             Log.i(TAG, "Received Start Foreground Intent ");
+
+            notifView = new RemoteViews(getPackageName(), R.layout.notification);
+
+            notifView.setTextViewText(R.id.content_title, getTimerName);
+            // Displays live timer counting down in custom notification
+            notifView.setChronometer(R.id.notif_tv, SystemClock.elapsedRealtime() + totalTime,
+                    null, true);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                notifView.setChronometerCountDown(R.id.notif_tv, true);
+            }
+
+            Intent showTaskIntent = new Intent(getApplicationContext(), MainActivity.class);
+            showTaskIntent.setAction(Intent.ACTION_MAIN);
+            showTaskIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            showTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
+                    0, showTaskIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                            .setSmallIcon(R.drawable.ic_alarm_black_24dp)
+                            .setCustomContentView(notifView)
+                            .setContentIntent(contentIntent)
+                            .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
             cdt = new CountDownTimer(totalTime, 1000) {
                 @Override
@@ -79,7 +104,6 @@ public class TimerService extends Service {
 
                     Log.i(TAG, "Countdown time remaining: " + millisUntilFinished / 3600000 + ":" +
                             millisUntilFinished % 3600000 / 60000 + ":" + millisUntilFinished % 60000 / 1000);
-
 
                     bi.putExtra("countdown", millisUntilFinished);
                     sendBroadcast(bi);
@@ -98,29 +122,6 @@ public class TimerService extends Service {
                 }
             };
 
-            notifView = new RemoteViews(getPackageName(), R.layout.notification);
-
-            notifView.setTextViewText(R.id.content_title, getTimerName);
-            notifView.setChronometer(R.id.notif_tv, bi.getLongExtra("countdown", 0), null, true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                notifView.setChronometerCountDown(R.id.notif_tv, false);
-            }
-
-            Intent showTaskIntent = new Intent(getApplicationContext(), MainActivity.class);
-            showTaskIntent.setAction(Intent.ACTION_MAIN);
-            showTaskIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            showTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),
-                    0, showTaskIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_alarm_black_24dp)
-                            .setCustomContentView(notifView)
-                            .setContentIntent(contentIntent)
-                            .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
-
             Notification notification = mBuilder.build();
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
             notification.defaults |= Notification.DEFAULT_SOUND;
@@ -137,6 +138,8 @@ public class TimerService extends Service {
 
         return START_STICKY;
     }
+
+
 
     @Override
     public IBinder onBind(Intent arg0) {
