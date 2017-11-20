@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 
 public class NewTimerFragment extends Fragment {
@@ -40,7 +41,8 @@ public class NewTimerFragment extends Fragment {
     Button startButton;
     EditText timerEditTxt;
     NumberPicker hourNumbPicker, minNumbPicker, secNumbPicker;
-    int timerHour, timerMin, timerSec;
+    int mTimerHour, mTimerMin, mTimerSec;
+    long mTotalTime;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -97,21 +99,28 @@ public class NewTimerFragment extends Fragment {
 
 
         final String timerName = timerEditTxt != null ? timerEditTxt.getText().toString() : null;
-        timerHour = hourNumbPicker != null ? hourNumbPicker.getValue() : 0;
-        timerMin = minNumbPicker != null ? minNumbPicker.getValue() : 0;
-        timerSec = secNumbPicker != null ? secNumbPicker.getValue() : 0;
+        mTimerHour = hourNumbPicker != null ? hourNumbPicker.getValue() : 0;
+        mTimerMin = minNumbPicker != null ? minNumbPicker.getValue() : 0;
+        mTimerSec = secNumbPicker != null ? secNumbPicker.getValue() : 0;
+
+        long timerHour = TimeUnit.HOURS.toMillis(mTimerHour);
+        long timerMin = TimeUnit.MINUTES.toMillis(mTimerMin);
+        long timerSec = TimeUnit.SECONDS.toMillis(mTimerSec);
+
+        final long totalTimeMillis = timerHour + timerMin + timerSec;
 
 
         if (Objects.equals(timerName, "") || Objects.equals(timerName, "Enter TimerModel Name")) {
-            Toast.makeText(this.getActivity(), "Please Enter TimerModel Name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "Please Enter Timer Name", Toast.LENGTH_SHORT).show();
         } else {
             // Save user's timer
-            writeNewTimer(timerName, timerHour, timerMin, timerSec);
+            writeNewTimer(timerName, totalTimeMillis);
             // Open MainActivity
-            // TODO: 10/20/17 set intent extras to save countdown timer for mainActivity to start the timer
             Intent intent = new Intent(getContext(), MainActivity.class);
+            // Starts service and adds extras to serviceIntent
             Intent serviceIntent = new Intent(TimerService.ACTION_FOREGROUND);
             serviceIntent.putExtra(TIMER_NAME, timerName);
+            serviceIntent.putExtra("totalTime", totalTimeMillis);
             serviceIntent.putExtra(HOUR, timerHour);
             serviceIntent.putExtra(MIN, timerMin);
             serviceIntent.putExtra(SEC, timerSec);
@@ -123,8 +132,8 @@ public class NewTimerFragment extends Fragment {
         }
     }
 
-    private void writeNewTimer(String timerName, Integer hour, Integer minute, Integer second) {
-        TimerModel timer = new TimerModel(timerName, hour, minute, second);
+    private void writeNewTimer(String timerName, long totalTime) {
+        TimerModel timer = new TimerModel(timerName, totalTime);
 
         // Retrieve current authenticated user from firebase
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

@@ -4,9 +4,7 @@ package com.annoyedandroid.ancora.model;
 public class TimerModel {
 
     private String timerName;
-    private Integer hour;
-    private Integer minute;
-    private Integer second;
+    private long totalTime;
 
     public TimerModel() {}
 
@@ -14,42 +12,17 @@ public class TimerModel {
         this.timerName = timerName;
     }
 
-    public TimerModel(String timerName, Integer hour, Integer minute, Integer second) {
+    public TimerModel(String timerName, long totalTime) {
         this.timerName = timerName;
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
+        this.totalTime = totalTime;
     }
 
     public String getTimerName() {
         return timerName;
     }
 
-    public void setTimerName(String timerName) {
-        this.timerName = timerName;
+    public long getTotalTime() {
+        return totalTime;
     }
 
-    public Integer getHour() {
-        return hour;
-    }
-
-    public void setHour(Integer hour) {
-        this.hour = hour;
-    }
-
-    public Integer getMinute() {
-        return minute;
-    }
-
-    public void setMinute(Integer minute) {
-        this.minute = minute;
-    }
-
-    public Integer getSecond() {
-        return second;
-    }
-
-    public void setSecond(Integer second) {
-        this.second = second;
-    }
 }

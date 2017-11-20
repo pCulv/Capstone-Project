@@ -18,7 +18,6 @@ import com.annoyedandroid.ancora.ui.activities.MainActivity;
 import com.annoyedandroid.ancora.ui.fragments.NewTimerFragment;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 
 public class TimerService extends Service {
@@ -52,22 +51,14 @@ public class TimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         alarm.setAlarm(this);
-
+        // Timer intent extras from current timer
         final String getTimerName = intent.getStringExtra(NewTimerFragment.TIMER_NAME);
-        int getHour = intent.getIntExtra(NewTimerFragment.HOUR, 0);
-        int getMin = intent.getIntExtra(NewTimerFragment.MIN, 0);
-        int getSec = intent.getIntExtra(NewTimerFragment.SEC, 0);
+        long getTotalTime = intent.getLongExtra("totalTime", 0);
 
         Log.i(TAG, "Starting timer...");
-        // Todo: retrieve timer from database
 
-        long timerHour = TimeUnit.HOURS.toMillis(getHour);
-        long timerMin = TimeUnit.MINUTES.toMillis(getMin);
-        long timerSec = TimeUnit.SECONDS.toMillis(getSec);
 
-        long totalTime = timerHour + timerMin + timerSec;
-
-        // If true service starts
+        // If true, service starts
         if (Objects.equals(intent.getAction(), ACTION_FOREGROUND)) {
 
             Log.i(TAG, "Received Start Foreground Intent ");
@@ -76,7 +67,7 @@ public class TimerService extends Service {
 
             notifView.setTextViewText(R.id.content_title, getTimerName);
             // Displays live timer counting down in custom notification
-            notifView.setChronometer(R.id.notif_tv, SystemClock.elapsedRealtime() + totalTime,
+            notifView.setChronometer(R.id.notif_tv, SystemClock.elapsedRealtime() + getTotalTime,
                     null, true);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -98,7 +89,7 @@ public class TimerService extends Service {
                             .setContentIntent(contentIntent)
                             .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
-            cdt = new CountDownTimer(totalTime, 1000) {
+            cdt = new CountDownTimer(getTotalTime, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 

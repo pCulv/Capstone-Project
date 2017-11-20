@@ -1,11 +1,11 @@
 package com.annoyedandroid.ancora.ui.adapters;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.annoyedandroid.ancora.R;
@@ -17,9 +17,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
 
     private List<TimerModel> mTimers;
     private Context mContext;
-    private int TIMER_HOUR;
-    private int TIMER_MIN;
-    private int TIMER_SEC;
+
 
     public TimerAdapter(List<TimerModel> timers, Context context) {
         this.mTimers = timers;
@@ -43,12 +41,26 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
     public void onBindViewHolder(final RecyclerViewHolders holder, int position) {
         holder.timerName.setText(mTimers.get(position).getTimerName());
         //todo: load chronometer that has been started after timer creation;
-        holder.timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
 
-            }
-        });
+        if (holder.timer != null) {
+            holder.timer.cancel();
+        }
+
+        long timer = (46555454);
+
+
+            holder.timer = new CountDownTimer(timer, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    holder.countdownTxt.setText("" + millisUntilFinished / 3600000 + ":" +
+                            millisUntilFinished % 3600000 / 60000 + ":" + millisUntilFinished % 60000 / 1000);
+                }
+
+                public void onFinish() {
+                    holder.countdownTxt.setText("0:00:00");
+                }
+            }.start();
+
+
     }
 
     @Override
@@ -59,13 +71,14 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
     class RecyclerViewHolders extends RecyclerView.ViewHolder {
 
         TextView timerName;
-        Chronometer timerChronometer;
+        TextView countdownTxt;
+        CountDownTimer timer;
 
         RecyclerViewHolders(View itemView) {
             super(itemView);
 
             timerName = itemView.findViewById(R.id.timerName);
-            timerChronometer = itemView.findViewById(R.id.chronometer2);
+            countdownTxt = itemView.findViewById(R.id.countdownTextView);
 
         }
 

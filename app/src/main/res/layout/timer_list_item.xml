@@ -18,13 +18,14 @@
         android:textSize="24sp"
         tools:text="Standup Reminder" />
 
-    <Chronometer
-        android:id="@+id/chronometer2"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/countdownTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:textColor="@color/colorAccent"
         android:textSize="24sp"
-        android:format="00:00:00"
-        android:countDown="true"
+        android:textAlignment="viewEnd"
+        tools:text="02:33"
         />
 </LinearLayout>
