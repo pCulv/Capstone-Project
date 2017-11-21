@@ -46,7 +46,7 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.RecyclerView
             holder.timer.cancel();
         }
 
-        long timer = (46555454);
+        long timer = (mTimers.get(position).getTotalTime());
 
 
             holder.timer = new CountDownTimer(timer, 1000) {
