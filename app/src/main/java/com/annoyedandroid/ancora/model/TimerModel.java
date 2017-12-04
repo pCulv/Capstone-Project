@@ -8,8 +8,13 @@ public class TimerModel {
 
     public TimerModel() {}
 
+
     public TimerModel(String timerName) {
         this.timerName = timerName;
+    }
+
+    public TimerModel(long totalTime) {
+        this.totalTime = totalTime;
     }
 
     public TimerModel(String timerName, long totalTime) {

@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +60,7 @@ public class MainActivityFragment extends Fragment {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Broadcase Received");
+            Log.i(TAG, "Broadcast Received");
 
         }
     };
@@ -143,12 +144,14 @@ public class MainActivityFragment extends Fragment {
             if (java.util.Objects.equals(singleSnapshot.getKey(), "timerName")) {
                 String timerName = singleSnapshot.getValue(String.class);
                 mTimers.add(new TimerModel(timerName));
-                mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.scrollToPosition(mTimers.size() - 1);
-
-
             }
+            if (Objects.equals(singleSnapshot.getKey(), "totalTime")) {
+                long totalTime = Long.parseLong(singleSnapshot.getValue().toString());
+                mTimers.add(new TimerModel(totalTime));
+            }
+            mAdapter = new TimerAdapter(mTimers, MainActivityFragment.this.getContext());
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.scrollToPosition(mTimers.size() - 1);
         }
     }
 

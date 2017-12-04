@@ -119,7 +119,7 @@ public class NewTimerFragment extends Fragment {
             Intent intent = new Intent(getContext(), MainActivity.class);
             // Starts service and adds extras to serviceIntent
             Intent serviceIntent = new Intent(TimerService.ACTION_FOREGROUND);
-            serviceIntent.putExtra(TIMER_NAME, timerName);
+//            serviceIntent.putExtra(TIMER_NAME, timerName);
             serviceIntent.putExtra("totalTime", totalTimeMillis);
             serviceIntent.putExtra(HOUR, timerHour);
             serviceIntent.putExtra(MIN, timerMin);
